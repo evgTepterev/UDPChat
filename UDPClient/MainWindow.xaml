@@ -1,0 +1,21 @@
+﻿<Window x:Class="UDPClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UDPClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button HorizontalAlignment="Right" x:Name="BTNBack" Click="BTNBack_Click" Content="Back"></Button>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" ContentRendered="MainFrame_ContentRendered" Grid.Row="1"></Frame>
+
+        <Grid Background="#ade235" Panel.ZIndex="-1"></Grid>
+        <Grid Background="DimGray" Panel.ZIndex="-1" Grid.Row="2"></Grid>
+    </Grid>
+</Window>
