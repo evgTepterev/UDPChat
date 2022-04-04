@@ -12,7 +12,7 @@ namespace UDPServer
     class Program
     {
         public static string ip = "25.79.252.1";
-        public static int port = 1488;
+        public static int port = 1400;
         public static Socket udpSocket = null;
         static void Main()
         {
@@ -35,6 +35,7 @@ namespace UDPServer
                     Main();
                     break;
             }
+
             IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             udpSocket.Bind(ipEndPoint);

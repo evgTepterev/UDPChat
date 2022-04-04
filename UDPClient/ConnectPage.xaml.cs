@@ -53,6 +53,7 @@ namespace UDPClient
             var mStream = new MemoryStream();
             binFormatter.Serialize(mStream, dataFromClient);
             string answerFromServer = Connect.ConnectToServer(mStream.ToArray());
+
             string[] answerFromServerArray = answerFromServer.Split(':');
             if(answerFromServerArray.Length == 2) // получает код и никнейм
             {

@@ -13,13 +13,14 @@ namespace UDPClient
         private static string ip = "25.79.252.1";
         private static int port = 1488;
         private static IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-        private static Socket udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        public static Socket udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         public static string ConnectToServer(byte[] bytes)
-        {           
+        {
+            
             SendDataToServer(bytes);
             Thread.Sleep(700);
 
-            string answer = DataBuffer.dataBuffer.Last();
+            string answer = DataBuffer.dataBuffer.LastOrDefault();
             return answer;
             
             //new Thread(delegate () { string s = ReceiveDataFromServer(); }).Start();
@@ -40,6 +41,7 @@ namespace UDPClient
             {
                 data.Clear();
                 EndPoint senderEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                Thread.Sleep(15000);
                 do
                 {
                     size = udpSocket.ReceiveFrom(buffer, ref senderEndPoint);

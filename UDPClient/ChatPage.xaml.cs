@@ -23,11 +23,34 @@ namespace UDPClient
         public ChatPage()
         {
             InitializeComponent();
+            ChatBoxChangedAsync();
         }
 
+        async Task ChatBoxChangedAsync()
+        {
+            await Task.Run(() => ChatBoxChanged());
+        }
+        private void ChatBoxChanged( )
+        {
+            string message;
+            DataBuffer.dataBuffer.Clear();
+            while (true) 
+            {
+                while (DataBuffer.dataBuffer.LastOrDefault() != null)
+                {
+                    message = DataBuffer.dataBuffer.Last();
+                    WriteChatBox(message);
+                    DataBuffer.dataBuffer.Clear();
+                }    
+             }            
+        }
+        private void WriteChatBox(string message)
+        {
+            ChatBox.AppendText(message);
+        }
         private void BTNMessageSend_Click(object sender, RoutedEventArgs e)
         {
-
+           Connect.udpSocket.Send(Encoding.UTF8.GetBytes(MessageBox.Text));
         }
 
         private void MessageBox_TextChanged(object sender, TextChangedEventArgs e)

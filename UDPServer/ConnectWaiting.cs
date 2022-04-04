@@ -35,6 +35,7 @@ namespace UDPServer
                     mStream.Write(buffer, 0, buffer.Length);
                     mStream.Position = 0;
                     var myObject = binFormatter.Deserialize(mStream) as string;
+                    mStream.Close();
                     var tempClientData = myObject.ToString().Split(':');
                     #endregion
 
