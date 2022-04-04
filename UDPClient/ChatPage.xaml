@@ -27,7 +27,9 @@
             <Canvas Grid.Column="0" Grid.Row="0" Background="#FFCFE7F7"></Canvas>
         </Border>
         <Border Grid.Row="1" BorderBrush="Black" BorderThickness="2">
-            <Canvas Background="Lavender"></Canvas>
+            <StackPanel Background="Lavender">
+                <TextBox x:Name="ChatBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="360" Width="600" IsReadOnly="True" ></TextBox>
+            </StackPanel>
         </Border>
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="2"></Border>
     </Grid>

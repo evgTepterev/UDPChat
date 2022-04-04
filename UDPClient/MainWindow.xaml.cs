@@ -25,6 +25,7 @@ namespace UDPClient
             InitializeComponent();
             MainFrame.Navigate(new ConnectPage());
             Manager.MainFrame = MainFrame;
+            Connect.RecieveDataAsync();
         }
 
         private void BTNBack_Click(object sender, RoutedEventArgs e)

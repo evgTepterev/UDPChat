@@ -77,7 +77,16 @@ namespace UDPClient
             var binFormatter = new BinaryFormatter();
             var mStream = new MemoryStream();
             binFormatter.Serialize(mStream, dataFromClient);
-            Connect.ConnectToServer(mStream.ToArray());
+            string answerFromServer = Connect.ConnectToServer(mStream.ToArray());
+            switch (Convert.ToInt32(answerFromServer))
+            {
+                case 1:
+                    Manager.MainFrame.Navigate(new ConnectPage());
+                    break;
+                case 0:
+                    MessageBox.Show("Никнейм уже кем-то используется");
+                    break;
+            }
         }
         private void RegBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -85,7 +94,7 @@ namespace UDPClient
             while (tb.Text.Contains(":"))
             {
                 tb.Text = tb.Text.Remove(tb.Text.IndexOf(':'), 1);
-                tb.Select(tb.Text.Last(), 1);
+                tb.Select(tb.Text.LastOrDefault(), 1);
             }
         }
         private void RegBox_PreviewKeyDown(object sender, KeyEventArgs e)

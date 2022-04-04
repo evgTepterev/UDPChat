@@ -17,7 +17,7 @@
         <TextBlock Text="Верификация" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Секретный вопрос" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-            <TextBox x:Name="VerQuestionBox" Width="150" Height="30"></TextBox>
+            <TextBox x:Name="VerQuestionBox" Width="150" Height="30" IsReadOnly="True"></TextBox>
             <TextBlock Text="Ответ на секретный вопрос" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             <PasswordBox x:Name="VerAnswerBox" Width="150" Height="30"></PasswordBox>
             <Button x:Name="BTNConnect" Click="BTNConnect_Click"  Content="Подключиться" IsDefault = "True"></Button>

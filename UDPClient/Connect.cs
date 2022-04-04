@@ -1,7 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace UDPClient
 {
@@ -10,37 +13,44 @@ namespace UDPClient
         private static string ip = "25.79.252.1";
         private static int port = 1488;
         private static IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-        private static Socket udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);       
-        public static void ConnectToServer(byte[] bytes)
-        {
-            udpSocket.Connect(ipEndPoint);
-            udpSocket.Send(bytes);
+        private static Socket udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        public static string ConnectToServer(byte[] bytes)
+        {           
+            SendDataToServer(bytes);
+            Thread.Sleep(700);
 
-            string s;
-            new Thread(delegate () { s = ReceiveDataFromServer(); }).Start();
+            string answer = DataBuffer.dataBuffer.Last();
+            return answer;
+            
+            //new Thread(delegate () { string s = ReceiveDataFromServer(); }).Start();
+            
         }
-        private static bool RegistrationOnServer(string nickname, string password, string question, string answer)
+        public static async Task RecieveDataAsync()
         {
-            bool answerFromServer = true;
-            return answerFromServer;
+            await Task.Run(() => ReceiveDataFromServer());
         }
-        private static string ReceiveDataFromServer() // этот метод реализован через доп. поток
+        
+        private static void ReceiveDataFromServer() 
         {
             var buffer = new byte[256];
             int size;
-            var data = new StringBuilder();            
-            EndPoint senderEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            do
+            var data = new StringBuilder();
+            udpSocket.Connect(ipEndPoint);
+            while (true)
             {
-                size = udpSocket.ReceiveFrom(buffer, ref senderEndPoint);
                 data.Clear();
-                data.Append(Encoding.UTF8.GetString(buffer), 0, size);
-            } while (udpSocket.Available > 0);
-            return data.ToString();
+                EndPoint senderEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                do
+                {
+                    size = udpSocket.ReceiveFrom(buffer, ref senderEndPoint);
+                    data.Append(Encoding.UTF8.GetString(buffer), 0, size);
+                } while (udpSocket.Available > 0);
+                DataBuffer.GetData(data.ToString());
+            }            
         }
-        private static void SendDataToServer(string sendData)
+        private static void SendDataToServer(byte[] sendData)
         {
-            udpSocket.Send(Encoding.UTF8.GetBytes(sendData));
+            udpSocket.Send(sendData);
         }
     }
 }

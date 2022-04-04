@@ -47,19 +47,25 @@ namespace UDPServer
                         Console.WriteLine("________________________________");
                         var checkResult = ConnectedClient.CheckClientLoginData(tempClientData[0], tempClientData[1], senderEndPoint);
                         Console.WriteLine(checkResult.Description);
-                        if (checkResult.Code == 2 || checkResult.Code == -2)
+                        if (checkResult.Code == 2)
+                        {
+                         
+                            Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(checkResult.Code.ToString()), senderEndPoint); // отправка кода клиенту
+                            GetReciveClientData.RecieveDataAsync(senderEndPoint);
+                        }
+                        else if (checkResult.Code == -2 || checkResult.Code == -4)
                         {
                             Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(checkResult.Code.ToString()), senderEndPoint); // отправка кода клиенту
                         }
                         else if (checkResult.Code == -1)
                         {
                             string answer = checkResult.Code + ":" + checkResult.Nickname;
-                            Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(answer), senderEndPoint); //отправка кода и никнейма клиенту (напомнить ник, т.к. есть айпи в базе)
+                            Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(answer), senderEndPoint);    //отправка кода и никнейма клиенту (напомнить ник, т.к. есть айпи в базе)
                         }
                         else if (checkResult.Code == -3 || checkResult.Code == 1) //TODO: ЭТО НЕБЕЗОПАСНО, В БУДУЩЕМ НАДО ПОДПРАВИТЬ, Т.К. ОТПРАВЛЯТЬ КЛИЕНТУ ОТВЕТ НА СЕКРЕТНЫЙ ВОПРОС ЧТОБ ПРОВЕРИТЬ ЭТО ТУПО!
                         {
-                            string answer = checkResult.Code + ":" + checkResult.Nickname + ":" + checkResult.Question + ":" + checkResult.Answer;
-                            Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(answer), senderEndPoint);
+                            string answer = checkResult.Code + ":" + checkResult.Nickname + ":" + checkResult.Question + ":" + checkResult.Answer;                           
+                            Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(answer), senderEndPoint);                           
                         }
                     }
                     else // если равно четырём, то пытается зарегаться

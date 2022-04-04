@@ -22,43 +22,25 @@ namespace UDPServer
             Question = question;
             Answer = answer;
             EndPoint = endPoint;
-        }
-
-        private int size;
-        private byte[] buffer = new byte[256];
-        private StringBuilder receivingData = new StringBuilder();
-        private string ReceiveData()
-        {
-            EndPoint endPoint = EndPoint;
-
-            while (true)
-            {
-                do
-                {
-                    size = Program.udpSocket.ReceiveFrom(buffer, ref endPoint);
-                    receivingData.Clear();
-                    receivingData.Append(Encoding.UTF8.GetString(buffer), 0, size);
-                } while (Program.udpSocket.Available > 0);
-                return receivingData.ToString();
-            }
-        }
-        private void SendData(string data)
-        {
-            EndPoint endPoint = EndPoint;
-            Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(data), endPoint);
-        }
-
+        }        
         static List<ConnectedClient> clients = ConnectWaiting.clients;
 
         public static (string Description, int Code) CheckClientRegData(string nickname, EndPoint endPoint)
         {
+            bool toRemove = false;
+            ConnectedClient objToRemove = null;
             foreach (var client in clients)
             {
-                if (client.EndPoint == endPoint)
+                if (client.EndPoint.ToString() == endPoint.ToString())
                 {
-                    clients.Remove(client);
+                    objToRemove = client;
+                    toRemove = true;
                     Console.WriteLine(endPoint + ": Попытка создать дополнительную учётку с уже зарегистрированного IP адреса\nУдаление старой учётки, попытка создания новой...");
                 }
+            }
+            if (toRemove)
+            {
+                clients.Remove(objToRemove);
             }
             foreach (var client in clients)
             {
@@ -66,7 +48,7 @@ namespace UDPServer
                 else
                 {
                     return (endPoint + ":Никнейм уже существует", 0); // вернуть только код ошибки, попросить ввести всё заново
-                }               
+                }
             }
             return (endPoint + ": Проверка пройдена, переход к созданию учетки", 1); // впустить 
         }
@@ -115,7 +97,7 @@ namespace UDPServer
                 }
                 else if (haveIP == false && haveNick == true && havePass == false)
                 {
-                    return ("no password no ip", -2, null, null, null);
+                    return ("no password no ip", -4, null, null, null);
                 }
             }
             return ("no nickname no ip", -2, null, null, null);
