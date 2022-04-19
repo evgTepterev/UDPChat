@@ -12,7 +12,7 @@ namespace UDPServer
     class Program
     {
         public static string ip = "25.79.252.1";
-        public static int port = 1488;
+        public static int port = 1400;
         public static Socket udpSocket = null;
         static void Main()
         {

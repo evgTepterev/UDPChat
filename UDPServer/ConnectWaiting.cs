@@ -48,8 +48,7 @@ namespace UDPServer
                         var checkResult = ConnectedClient.CheckClientLoginData(tempClientData[0], tempClientData[1], senderEndPoint);
                         Console.WriteLine(checkResult.Description);
                         if (checkResult.Code == 2)
-                        {
-                         
+                        {                      
                             Program.udpSocket.SendTo(Encoding.UTF8.GetBytes(checkResult.Code.ToString()), senderEndPoint); // отправка кода клиенту
                             GetReciveClientData.RecieveDataAsync(senderEndPoint);
                         }

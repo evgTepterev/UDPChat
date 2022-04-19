@@ -28,7 +28,7 @@
         </Border>
         <Border Grid.Row="1" BorderBrush="Black" BorderThickness="2">
             <StackPanel Background="Lavender">
-                <TextBox x:Name="ChatBox"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="360" Width="600" IsReadOnly="True" ></TextBox>
+                <TextBlock x:Name="ChatBox" Text="{Binding Path=MyText}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="360" Width="600"></TextBlock>
             </StackPanel>
         </Border>
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="2"></Border>

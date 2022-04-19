@@ -68,6 +68,7 @@ namespace UDPClient
             switch (choice)
             {
                 case 2:
+                    Connect.CloseConnect();
                     Manager.MainFrame.Navigate(new ChatPage());
                     break;
                 case 1:
